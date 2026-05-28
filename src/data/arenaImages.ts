@@ -1,4 +1,4 @@
-﻿export type ArenaImageEntry = {
+export type ArenaImageEntry = {
   patch: string;
   content: string;
   name: string;
@@ -7,9 +7,27 @@
 
 export const arenaImages: ArenaImageEntry[] = [
   {
+    patch: "7.5",
+    content: "Ult UMAD",
+    name: "UMAD P1a Arena",
+    url: "https://raw.githubusercontent.com/F1reman2/Arena-Images/refs/heads/main/7.5%20Ult%20UMAD/UMAD_P1a_Arena.png",
+  },
+  {
+    patch: "7.5",
+    content: "Ult UMAD",
+    name: "UMAD P2a Arena",
+    url: "https://raw.githubusercontent.com/F1reman2/Arena-Images/refs/heads/main/7.5%20Ult%20UMAD/UMAD_P2a_Arena.png",
+  },
+  {
+    patch: "7.5",
+    content: "Ult UMAD",
+    name: "UMAD P2b Arena",
+    url: "https://raw.githubusercontent.com/F1reman2/Arena-Images/refs/heads/main/7.5%20Ult%20UMAD/UMAD_P2b_Arena.png",
+  },
+  {
     patch: "6.1",
-    content: "Dragonsong's Reprise (Ultimate)",
-    name: "DSR P2 Arena Variant 1",
+    content: "Ult DSR",
+    name: "DSR P2a Arena",
     url: "https://raw.githubusercontent.com/F1reman2/Arena-Images/refs/heads/main/6.1%20Ult%20DSR/DSR_P2a_Arena.png",
   },
 ];
