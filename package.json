@@ -7,10 +7,10 @@
     "node": ">=20.19.0"
   },
   "scripts": {
-    "dev": "vite --configLoader native",
-    "build": "tsc && vite build --configLoader native",
-    "build:pages": "tsc && vite build --configLoader native",
-    "preview": "vite preview --configLoader native"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:pages": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",
