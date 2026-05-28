@@ -1,4 +1,4 @@
-export type ArenaImageEntry = {
+﻿export type ArenaImageEntry = {
   patch: string;
   content: string;
   name: string;
@@ -33,6 +33,13 @@ function titleFromFile(fileName: string) {
   return fileName.replace(/\.[^.]+$/, "").replace(/_/g, " ");
 }
 
+function compareArenaImages(a: ArenaImageEntry, b: ArenaImageEntry) {
+  const patchDelta = Number.parseFloat(b.patch) - Number.parseFloat(a.patch);
+  if (Number.isFinite(patchDelta) && Math.abs(patchDelta) > 0.001) return patchDelta;
+  if (a.content !== b.content) return b.content.localeCompare(a.content, undefined, { numeric: true });
+  return a.name.localeCompare(b.name, undefined, { numeric: true });
+}
+
 async function fetchContents(path = ""): Promise<GitHubContent[]> {
   const suffix = path ? `/${encodeURIComponent(path).replace(/%2F/g, "/")}` : "";
   const response = await fetch(`${CONTENTS_API}${suffix}?ref=main`, { headers: { Accept: "application/vnd.github+json" } });
@@ -54,5 +61,5 @@ export async function loadArenaImagesFromGitHub(): Promise<ArenaImageEntry[]> {
   const loaded = lists.flat();
   const byUrl = new Map<string, ArenaImageEntry>();
   [...arenaImages, ...loaded].forEach((entry) => byUrl.set(entry.url, entry));
-  return [...byUrl.values()].sort((a, b) => `${a.patch} ${a.content} ${a.name}`.localeCompare(`${b.patch} ${b.content} ${b.name}`));
+  return [...byUrl.values()].sort(compareArenaImages);
 }

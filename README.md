@@ -1,4 +1,4 @@
-﻿# FF14 AoE Planner
+﻿# FFXIV Raid Diagram
 
 FF14のギミック処理図を作るための、React + TypeScript + Vite製Webツールです。
 

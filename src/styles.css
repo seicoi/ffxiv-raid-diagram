@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: dark;
   font-family:
     Inter, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
@@ -709,4 +709,96 @@ label {
   color: #d6e2f3;
   line-height: 1.7;
   margin: 6px 0;
+}
+
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .panel,
+  .workspace {
+    border: 0;
+    height: auto;
+    max-height: none;
+    min-height: auto;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .panel {
+    padding: 12px;
+  }
+
+  .workspace {
+    order: 2;
+  }
+
+  .left-panel {
+    order: 1;
+  }
+
+  .right-panel {
+    order: 3;
+  }
+
+  .panel-resizer {
+    display: none;
+  }
+
+  .topbar,
+  .snap-control,
+  .top-actions {
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .topbar {
+    background: #0b0f17;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .meter-readout {
+    white-space: normal;
+  }
+
+  .canvas-wrap {
+    min-height: 70vh;
+    padding: 12px;
+    place-items: start;
+  }
+
+  .diagram-canvas {
+    min-width: 1024px;
+  }
+
+  .form-grid,
+  .selected-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  }
+
+  .folder-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .layer-row {
+    grid-template-columns: 26px 26px minmax(96px, 1fr) 30px 30px 34px 34px 34px;
+    overflow-x: auto;
+  }
 }
