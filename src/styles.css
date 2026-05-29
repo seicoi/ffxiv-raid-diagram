@@ -1457,3 +1457,132 @@ label {
   margin-left: 8px;
   white-space: nowrap;
 }
+/* Compact layer rows so all controls fit in the default right panel. */
+.right-panel .layer-row {
+  gap: 4px;
+  grid-template-columns: 20px 22px minmax(54px, 1fr) 26px 26px 26px 26px 26px;
+  padding: 4px 2px;
+}
+
+.right-panel .layer-row button {
+  font-size: 11px;
+  min-height: 26px;
+  min-width: 0;
+  padding: 3px;
+}
+
+.right-panel .layer-name {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.right-panel .layer-icon {
+  height: 22px;
+  width: 22px;
+}
+
+.right-panel .layer-icon img {
+  height: 20px;
+  width: 20px;
+}
+
+.right-panel .layer-number {
+  font-size: 11px;
+}
+
+.right-panel .folder-tools {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@media (max-width: 1360px), (max-height: 780px) {
+  .right-panel .layer-row {
+    grid-template-columns: 18px 20px minmax(44px, 1fr) 24px 24px 24px 24px 24px;
+  }
+
+  .right-panel .layer-row button {
+    font-size: 10px;
+    min-height: 24px;
+  }
+}
+/* Asset grid should gain columns on wider panels, not on smaller screens. */
+.asset-grid {
+  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+}
+
+@media (min-width: 1601px) and (min-height: 901px) {
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+  }
+}
+
+@media (max-width: 1600px), (max-height: 900px) {
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  }
+}
+
+@media (max-width: 1360px), (max-height: 780px) {
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  }
+}
+
+@media (max-width: 1000px) {
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1279px) and (min-height: 1000px) {
+  .workspace {
+    height: min-content;
+    min-height: 0;
+  }
+
+  .canvas-wrap {
+    min-height: 0;
+    padding-bottom: 10px;
+  }
+}
+@media (min-width: 1001px) and (max-width: 1279px) and (min-height: 1000px) {
+  .workspace {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .canvas-wrap {
+    align-content: start;
+    display: block;
+    min-height: 0 !important;
+    overflow: hidden;
+    padding: 10px 10px 0;
+  }
+
+  .canvas-wrap .diagram-canvas {
+    display: block;
+    height: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+/* Narrow vertical layout: fit the canvas to the available column and remove the artificial 70vh gap. */
+@media (max-width: 1000px) {
+  .workspace {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .canvas-wrap {
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 10px 8px 0 !important;
+  }
+
+  .diagram-canvas {
+    display: block !important;
+    height: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
