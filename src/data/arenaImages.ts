@@ -42,15 +42,18 @@ const remoteArenaImages: ArenaImageEntry[] = [
 
 export const arenaImages: ArenaImageEntry[] = [...localFieldImages, ...remoteArenaImages];
 
-type GitHubContent = {
-  name: string;
+type GitHubTreeItem = {
   path: string;
-  type: "file" | "dir";
-  download_url: string | null;
-  url: string;
+  type: "blob" | "tree";
 };
 
-const CONTENTS_API = "https://api.github.com/repos/F1reman2/Arena-Images/contents";
+type GitHubTreeResponse = {
+  tree: GitHubTreeItem[];
+  truncated?: boolean;
+};
+
+const TREE_API = "https://api.github.com/repos/F1reman2/Arena-Images/git/trees/main?recursive=1";
+const RAW_BASE = "https://raw.githubusercontent.com/F1reman2/Arena-Images/main";
 
 function parseFolder(folderName: string) {
   const [patch = "Unknown", ...rest] = folderName.split(" ");
@@ -59,6 +62,10 @@ function parseFolder(folderName: string) {
 
 function titleFromFile(fileName: string) {
   return fileName.replace(/\.[^.]+$/, "").replace(/_/g, " ");
+}
+
+function rawUrlFromPath(path: string) {
+  return `${RAW_BASE}/${path.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 function compareArenaImages(a: ArenaImageEntry, b: ArenaImageEntry) {
@@ -71,25 +78,22 @@ function compareArenaImages(a: ArenaImageEntry, b: ArenaImageEntry) {
   return a.name.localeCompare(b.name, undefined, { numeric: true });
 }
 
-async function fetchContents(path = ""): Promise<GitHubContent[]> {
-  const suffix = path ? `/${encodeURIComponent(path).replace(/%2F/g, "/")}` : "";
-  const response = await fetch(`${CONTENTS_API}${suffix}?ref=main`, { headers: { Accept: "application/vnd.github+json" } });
+async function fetchImageTree(): Promise<ArenaImageEntry[]> {
+  const response = await fetch(TREE_API, { headers: { Accept: "application/vnd.github+json" } });
   if (!response.ok) throw new Error(`Arena Images list failed: HTTP ${response.status}`);
-  const data = await response.json();
-  return Array.isArray(data) ? data as GitHubContent[] : [];
+  const data = await response.json() as GitHubTreeResponse;
+  return (data.tree ?? [])
+    .filter((item) => item.type === "blob" && /\.(png|jpe?g|webp)$/i.test(item.path) && item.path.includes("/"))
+    .map((item) => {
+      const [folder, ...fileParts] = item.path.split("/");
+      const fileName = fileParts.join("/").split("/").pop() ?? item.path;
+      const { patch, content } = parseFolder(folder);
+      return { patch, content, name: titleFromFile(fileName), url: rawUrlFromPath(item.path) };
+    });
 }
 
 export async function loadArenaImagesFromGitHub(): Promise<ArenaImageEntry[]> {
-  const root = await fetchContents();
-  const folders = root.filter((item) => item.type === "dir");
-  const lists = await Promise.all(folders.map(async (folder) => {
-    const { patch, content } = parseFolder(folder.name);
-    const files = await fetchContents(folder.path);
-    return files
-      .filter((file) => file.type === "file" && file.download_url && /\.(png|jpe?g|webp)$/i.test(file.name))
-      .map((file) => ({ patch, content, name: titleFromFile(file.name), url: file.download_url! }));
-  }));
-  const loaded = lists.flat();
+  const loaded = await fetchImageTree();
   const byUrl = new Map<string, ArenaImageEntry>();
   [...localFieldImages, ...remoteArenaImages, ...loaded].forEach((entry) => byUrl.set(entry.url, entry));
   return [...byUrl.values()].sort(compareArenaImages);
