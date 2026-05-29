@@ -5,7 +5,15 @@ export type ArenaImageEntry = {
   url: string;
 };
 
-export const arenaImages: ArenaImageEntry[] = [
+export const localFieldImages: ArenaImageEntry[] = [
+  { patch: "Local", content: "Field Images", name: "Circle Plaid", url: "field%20images/circle%20plaid.png" },
+  { patch: "Local", content: "Field Images", name: "Circle Plain", url: "field%20images/circle%20plain.png" },
+  { patch: "Local", content: "Field Images", name: "Rect Plaid", url: "field%20images/rect%20plaid.png" },
+  { patch: "Local", content: "Field Images", name: "Rect Plain", url: "field%20images/rect%20plain.png" },
+  { patch: "Local", content: "Field Images", name: "Square Plaid", url: "field%20images/square%20plaid.png" },
+  { patch: "Local", content: "Field Images", name: "Square Plain", url: "field%20images/square%20plain.png" },
+];
+const remoteArenaImages: ArenaImageEntry[] = [
   {
     patch: "7.5",
     content: "Ult UMAD",
@@ -32,6 +40,8 @@ export const arenaImages: ArenaImageEntry[] = [
   },
 ];
 
+export const arenaImages: ArenaImageEntry[] = [...localFieldImages, ...remoteArenaImages];
+
 type GitHubContent = {
   name: string;
   path: string;
@@ -52,6 +62,9 @@ function titleFromFile(fileName: string) {
 }
 
 function compareArenaImages(a: ArenaImageEntry, b: ArenaImageEntry) {
+  const aLocal = !/^https?:/i.test(a.url);
+  const bLocal = !/^https?:/i.test(b.url);
+  if (aLocal !== bLocal) return aLocal ? -1 : 1;
   const patchDelta = Number.parseFloat(b.patch) - Number.parseFloat(a.patch);
   if (Number.isFinite(patchDelta) && Math.abs(patchDelta) > 0.001) return patchDelta;
   if (a.content !== b.content) return b.content.localeCompare(a.content, undefined, { numeric: true });
@@ -78,6 +91,6 @@ export async function loadArenaImagesFromGitHub(): Promise<ArenaImageEntry[]> {
   }));
   const loaded = lists.flat();
   const byUrl = new Map<string, ArenaImageEntry>();
-  [...arenaImages, ...loaded].forEach((entry) => byUrl.set(entry.url, entry));
+  [...localFieldImages, ...remoteArenaImages, ...loaded].forEach((entry) => byUrl.set(entry.url, entry));
   return [...byUrl.values()].sort(compareArenaImages);
 }

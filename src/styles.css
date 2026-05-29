@@ -982,6 +982,56 @@ label {
 .setup-background > .setup-settings:not([open]) > summary {
   margin-bottom: 0;
 }
+
+.setup-settings-toggle {
+  align-self: end;
+  min-width: 34px;
+  padding: 4px;
+  width: 34px;
+}
+
+.setup-settings-panel {
+  border-top: 1px solid #263449;
+  display: grid;
+  gap: 12px;
+  grid-column: 1 / -1;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 8px;
+  padding-top: 10px;
+}
+
+.setup-settings-panel .setup-settings-block {
+  border-top: 0;
+  padding-top: 0;
+}
+
+@media (max-width: 1200px) {
+  .setup-settings-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.setup-background {
+  grid-template-columns: auto auto 34px 34px;
+}
+
+.setup-background > label:first-of-type {
+  max-width: none;
+  width: auto;
+}
+
+.setup-background > label:first-of-type select {
+  width: 360px;
+}
+
+.setup-background > .file-button.icon-only,
+.setup-background > .setup-settings-toggle {
+  grid-column: auto !important;
+}
+
+.setup-background > .setup-settings-panel {
+  grid-column: 1 / -1;
+}
 @media (min-width: 1001px) and (max-width: 1279px) {
   .app-shell {
     height: 100vh;
@@ -1149,4 +1199,261 @@ label {
     grid-template-columns: 26px 26px minmax(96px, 1fr) 30px 30px 34px 34px 34px;
     overflow-x: auto;
   }
+}
+/* Keep the compact setup controls on one row: label, arena select, upload, setup. */
+.setup-panel .setup-section.setup-background {
+  align-items: end !important;
+  display: grid !important;
+  gap: 6px 8px !important;
+  grid-template-columns: max-content max-content 34px 34px !important;
+  justify-content: start !important;
+}
+
+.setup-panel .setup-section.setup-background > h2 {
+  grid-column: auto !important;
+  margin: 0 !important;
+  padding-bottom: 7px !important;
+  white-space: nowrap !important;
+}
+
+.setup-panel .setup-section.setup-background > label:first-of-type {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: max-content !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+.setup-panel .setup-section.setup-background > label:first-of-type select {
+  width: 360px !important;
+  max-width: 42vw !important;
+}
+
+.setup-panel .setup-section.setup-background > .file-button.icon-only,
+.setup-panel .setup-section.setup-background > .setup-settings-toggle {
+  grid-column: auto !important;
+  align-self: end !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  width: 34px !important;
+}
+
+.setup-panel .setup-section.setup-background > .setup-settings-panel,
+.setup-panel .setup-section.setup-background > .error-message {
+  grid-column: 1 / -1 !important;
+}
+/* Keep expanded setup content compact instead of stretching across ultrawide screens. */
+.setup-panel .setup-section.setup-background > .setup-settings-panel {
+  column-gap: 16px !important;
+  grid-template-columns: minmax(420px, 560px) minmax(420px, 560px) !important;
+  justify-content: start !important;
+  max-width: 1140px !important;
+}
+
+.setup-panel .setup-section.setup-background > .setup-settings-panel .setup-settings-block {
+  min-width: 0 !important;
+}
+
+.setup-panel .setup-section.setup-background > .setup-settings-panel .form-grid {
+  gap: 8px !important;
+}
+
+@media (max-width: 1200px) {
+  .setup-panel .setup-section.setup-background > .setup-settings-panel {
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: none !important;
+  }
+}
+/* Setup header uses flex so the expanded settings row cannot stretch the closed controls. */
+.setup-panel .setup-section.setup-background {
+  align-items: flex-end !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px 8px !important;
+  justify-content: flex-start !important;
+}
+
+.setup-panel .setup-section.setup-background > h2 {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding-bottom: 7px !important;
+  white-space: nowrap !important;
+}
+
+.setup-panel .setup-section.setup-background > label:first-of-type {
+  align-items: center !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  gap: 8px !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  width: auto !important;
+}
+
+.setup-panel .setup-section.setup-background > label:first-of-type select {
+  flex: 0 0 360px !important;
+  max-width: 42vw !important;
+  width: 360px !important;
+}
+
+.setup-panel .setup-section.setup-background > .file-button.icon-only,
+.setup-panel .setup-section.setup-background > .setup-settings-toggle {
+  align-self: flex-end !important;
+  flex: 0 0 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  width: 34px !important;
+}
+
+.setup-panel .setup-section.setup-background > .setup-settings-panel,
+.setup-panel .setup-section.setup-background > .error-message {
+  flex: 0 0 100% !important;
+}
+
+.setup-panel .setup-section.setup-background > .setup-settings-panel {
+  max-width: 1140px !important;
+}
+/* Density mode for laptop-height or narrow windows. */
+@media (max-width: 1600px), (max-height: 900px) {
+  .app-shell:not(.left-collapsed):not(.right-collapsed) {
+    grid-template-columns: minmax(260px, 300px) minmax(420px, 1fr) minmax(300px, 360px);
+  }
+
+  .app-shell.left-collapsed:not(.right-collapsed) {
+    grid-template-columns: 44px minmax(420px, 1fr) minmax(300px, 360px);
+  }
+
+  .app-shell:not(.left-collapsed).right-collapsed {
+    grid-template-columns: minmax(260px, 300px) minmax(420px, 1fr) 44px;
+  }
+
+  .panel {
+    padding: 10px;
+  }
+
+  .setup-panel {
+    gap: 8px;
+    padding: 5px 10px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand strong {
+    font-size: 13px;
+  }
+
+  .brand span,
+  .meter-readout,
+  .hint,
+  label,
+  .panel-section summary,
+  .asset-category summary {
+    font-size: 11px;
+  }
+
+  button,
+  input,
+  select,
+  .file-button {
+    font-size: 12px;
+    min-height: 30px;
+  }
+
+  .topbar {
+    gap: 8px;
+    min-height: 44px;
+    padding: 7px 10px;
+  }
+
+  .snap-control,
+  .top-actions {
+    gap: 8px;
+  }
+
+  .snap-control input[type="number"] {
+    width: 56px;
+  }
+
+  .autosave-status {
+    max-width: 150px;
+    padding: 5px 7px;
+  }
+
+  .asset-grid {
+    gap: 6px;
+  }
+
+  .asset-tile {
+    min-height: 64px;
+    padding: 6px;
+  }
+
+  .asset-tile img {
+    max-height: 38px;
+    max-width: 38px;
+  }
+
+  .canvas-wrap {
+    min-height: calc(100vh - 58px);
+    padding: 12px;
+  }
+
+  .setup-panel .setup-section.setup-background > label:first-of-type select {
+    flex-basis: 320px !important;
+    width: 320px !important;
+  }
+}
+
+@media (max-width: 1360px), (max-height: 780px) {
+  .app-shell:not(.left-collapsed):not(.right-collapsed) {
+    grid-template-columns: minmax(220px, 270px) minmax(360px, 1fr) minmax(260px, 320px);
+  }
+
+  .panel {
+    padding: 8px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .top-actions {
+    margin-left: auto;
+  }
+
+  .asset-grid {
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  }
+
+  .asset-tile {
+    min-height: 54px;
+  }
+
+  .asset-tile img {
+    max-height: 32px;
+    max-width: 32px;
+  }
+
+  .setup-panel .setup-section.setup-background > label:first-of-type select {
+    flex-basis: 280px !important;
+    width: 280px !important;
+  }
+}
+.copyright-credit {
+  color: #94a8c4;
+  font-size: 11px;
+  margin: 8px 0 12px;
+  text-align: right;
+}
+.brand-credit {
+  color: #94a8c4;
+  display: inline;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 8px;
+  white-space: nowrap;
 }
