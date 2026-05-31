@@ -180,7 +180,10 @@ export async function loadArenaImagesFromGitHub(): Promise<ArenaImageEntry[]> {
       }
     }
   }
-  const byUrl = new Map<string, ArenaImageEntry>();
-  [...localFieldImages, ...remoteArenaImages, ...loaded].forEach((entry) => byUrl.set(entry.url, entry));
-  return [...byUrl.values()].sort(compareArenaImages);
+  const byIdentity = new Map<string, ArenaImageEntry>();
+  [...localFieldImages, ...remoteArenaImages, ...loaded].forEach((entry) => {
+    const key = `${entry.patch}/${entry.content}/${entry.name}`.toLowerCase();
+    if (!byIdentity.has(key)) byIdentity.set(key, entry);
+  });
+  return [...byIdentity.values()].sort(compareArenaImages);
 }
